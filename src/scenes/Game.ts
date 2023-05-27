@@ -6,6 +6,7 @@ import TextureKeys from "../consts/TextureKeys";
 import { PuzzleState } from "../util/PuzzleState";
 import { LayerManager } from "../game/LayerManager";
 import EventKeys from "../consts/EventKeys";
+import SoundKeys from "../consts/SoundKeys";
 
 export default class Game extends Phaser.Scene {
     private player!: Player;
@@ -27,15 +28,17 @@ export default class Game extends Phaser.Scene {
     create(): void {
         const { width, height } = this.scale;
 
-        const bgm = this.sound.add("kysNOW", {loop: true});
-        bgm.play();
+        const backgroundMusic = this.sound.add(SoundKeys.Bgm, {loop: true});
+        // backgroundMusic.play();
 
         const debugMap = this.add.tilemap(TilemapKeys.DebugMap);
         const debugTileset = debugMap.addTilesetImage(TextureKeys.DebugTileset);
 
-        const map = this.add.tilemap(TilemapKeys.TestMap);
+        // const map = this.add.tilemap(TilemapKeys.TestMap);
+        const map = this.add.tilemap(TilemapKeys.TestCollisionMap);
         const incaFrontTileset = map.addTilesetImage(TextureKeys.IncaTilesetFront);
         const incaBackTileset = map.addTilesetImage(TextureKeys.IncaTilesetBack);
+        const testCollisionTileset = map.addTilesetImage(TextureKeys.TestCollision);
         
         const fmtLayer = 'Tile Layer {}';
         
@@ -50,7 +53,9 @@ export default class Game extends Phaser.Scene {
             }
         });
         
-        this.puzzleState.scramble(50);
+        //! @todo Uncomment this
+        // this.puzzleState.scramble(50);
+
         let i = -1;
         for (let gridY = 0; gridY < 4; gridY++) {
             for (let gridX = 0; gridX < 4; gridX++) {
@@ -65,7 +70,11 @@ export default class Game extends Phaser.Scene {
 
                 const offset = [gridX - x, gridY - y];
                 
-                const layer = debugMap.createLayer(fmtLayer.replace('{}', `${i+2}`), [debugTileset, incaFrontTileset, incaBackTileset], -offset[0]*20*8, -offset[1]*20*8);
+                const layer = map.createLayer(fmtLayer.replace('{}', `${i+2}`), [debugTileset, incaFrontTileset, incaBackTileset, testCollisionTileset], -offset[0]*20*8, -offset[1]*20*8);
+                
+                // Collision addition
+                layer?.setCollisionByProperty({collidable: true});
+                
                 const manager = new LayerManager(this, x * 20 * 8, y * 20 * 8, layer, i+1, gridX, gridY);
                 manager.on(EventKeys.MoveTile, (id: number) => {
                     this.moveLayer(id);
@@ -76,6 +85,11 @@ export default class Game extends Phaser.Scene {
         
         this.player = new Player(this, width * 0.5, height * 0.5);
         this.add.existing(this.player);
+
+        // Loop through all layers and make them collidable with the player
+        for (const layerManager of this.layers) {
+            this.physics.add.collider(layerManager.layer, this.player);
+        }
 
         this.puzzleState.emit('active-ids', this.puzzleState.getActiveIds());
         this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {

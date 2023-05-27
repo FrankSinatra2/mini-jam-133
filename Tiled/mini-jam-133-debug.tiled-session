@@ -3,25 +3,57 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "testMap1.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInEditor": 1
         },
+        "debug-map.json": {
+            "scale": 0.5551562499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 318.8291584576414,
+                "y": 577.3149451168027
+            }
+        },
+        "debug-map.json#debug-tileset": {
+            "scaleInDock": 1
+        },
         "debug-map.tmx": {
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -35,
-                "y": 380
+                "x": 319,
+                "y": 177.5
             }
         },
         "debug-map.tmx#debug-tileset": {
             "scaleInDock": 11,
             "scaleInEditor": 1
+        },
+        "testMap1.tmx": {
+            "scale": 0.5551562499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 736.7295243456235,
+                "y": 321.531100478469
+            }
+        },
+        "testMap1.tmx#DeliBurd": {
+            "scaleInDock": 1
+        },
+        "testMap1.tmx#inca_back": {
+            "scaleInDock": 1
+        },
+        "testMap1.tmx#inca_back2": {
+            "scaleInDock": 1
+        },
+        "testMap1.tmx#inca_front": {
+            "scaleInDock": 1
         }
     },
     "last.exportedFilePath": "D:/dev/mini-jam-133/Tiled",
@@ -31,10 +63,14 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 80,
     "openFiles": [
+        "debug-map.tmx",
+        "testMap1.tmx"
     ],
     "project": "mini-jam-133-debug.tiled-project",
     "recentFiles": [
-        "debug-map.tmx"
+        "debug-map.tmx",
+        "testMap1.tmx",
+        "debug-map.json"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {
