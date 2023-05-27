@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import SceneKeys from "../consts/SceneKeys";
 import Player from "../game/Player";
+import Flag from "../game/Flag";
 import TilemapKeys from "../consts/TilemapKeys";
 import TextureKeys from "../consts/TextureKeys";
 import { PuzzleState } from "../util/PuzzleState";
@@ -10,6 +11,7 @@ import SoundKeys from "../consts/SoundKeys";
 
 export default class Game extends Phaser.Scene {
     private player!: Player;
+    private flag!: Flag;
     private layers: LayerManager[] = [];
 
     private puzzleState = new PuzzleState();
@@ -84,12 +86,20 @@ export default class Game extends Phaser.Scene {
         }
         
         this.player = new Player(this, width * 0.5, height * 0.5);
+        this.flag = new Flag(this, width * 0.6, height * 0.6);
+        
         this.add.existing(this.player);
+        this.add.existing(this.flag);
 
         // Loop through all layers and make them collidable with the player
         for (const layerManager of this.layers) {
             this.physics.add.collider(layerManager.layer, this.player);
         }
+
+        // Make the player collidable with the flag
+        this.physics.add.overlap(this.player, this.flag, ()=>{
+            this.scene.start(SceneKeys.WinScreen);
+        });
 
         this.puzzleState.emit('active-ids', this.puzzleState.getActiveIds());
         this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {

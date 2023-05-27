@@ -4,7 +4,8 @@ enum TextureKeys {
     IncaTilesetBack = 'inca_back2',
     TestCollision = 'testCollision',
     DebugTileset = 'debug-tileset',
-    LayerHighlight = 'layer-highlight'
+    LayerHighlight = 'layer-highlight',
+    Flag = 'flag'
 }
 
 export default TextureKeys;
