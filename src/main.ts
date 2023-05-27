@@ -7,8 +7,8 @@ import { PuzzleState } from './util/PuzzleState'
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
 	parent: 'app',
-	width: 800,
-	height: 600,
+	width: 80*8,
+	height: 80*8,
 	physics: {
 		default: 'arcade',
 		arcade: {

@@ -25,13 +25,14 @@ export default class Game extends Phaser.Scene {
         this.add.existing(this.player);
 
         const map = this.add.tilemap(TilemapKeys.TestMap);
-        const tileset = map.addTilesetImage(TextureKeys.IncaTilesetFront);
+        const tilesetFront = map.addTilesetImage(TextureKeys.IncaTilesetFront);
+        const tilesetBack = map.addTilesetImage(TextureKeys.IncaTilesetBack);
         
         const fmtLayer = 'Tile Layer {}';
         const layers: Phaser.Tilemaps.TilemapLayer[] = [];
 
         for (let i = 0; i < 15; i++) {
-            const layer = map.createLayer(fmtLayer.replace('{}', `${i + 1}`), tileset);
+            const layer = map.createLayer(fmtLayer.replace('{}', `${i + 2}`), [tilesetFront, tilesetBack]);
             layers.push(layer);
         }
 
