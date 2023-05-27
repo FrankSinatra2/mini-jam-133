@@ -16,10 +16,16 @@ export default class Timer extends Phaser.GameObjects.Container {
         // const seconds = this.timer % 60;
         // const minutes = this.timer / 60;
         let elapsed = (new Date().getTime() - this.startTime) / 1000;
-        const minute = Math.floor(elapsed / 60);
-        const second = Math.floor(elapsed % 60);
-        // return `${minutes}:${seconds}`;
-        return minute + ':' + second;
+        let minute: string|number = Math.floor(elapsed / 60);
+        let second: string|number = Math.floor(elapsed % 60);
+        if (minute < 10){
+            minute = '0' + minute;
+        }
+        if (second < 10){
+            second = '0' + second;
+        }
+        return minute + ':' + second
+        //return ("%02d:%02d" % [minute, second]);
     }
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
