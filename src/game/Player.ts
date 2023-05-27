@@ -13,10 +13,10 @@ export default class Player extends Phaser.GameObjects.Container {
     arcadeBody!: Phaser.Physics.Arcade.Body;
 
     playerState = PlayerState.Idle;
-    isOnGround = false;
     longJump = 0;
     jumpLock = false;
     cyote = 0;
+    jumped = false;
     
     readonly GROUND_FRICTION = 0.96;
 
@@ -47,7 +47,7 @@ export default class Player extends Phaser.GameObjects.Container {
         this.cursors = scene.input!.keyboard!.createCursorKeys();
     }
 
-    update(t: number, dt: number): void {
+    update(_t: number, _dt: number): void {
         if (this.cursors.up.isUp) this.jumpLock = false;
 
         if (this.arcadeBody.onFloor()) {
@@ -67,7 +67,7 @@ export default class Player extends Phaser.GameObjects.Container {
                 this.jumpLock = true;
                 this.arcadeBody.velocity.y = - 400;
                 this.cyote = 60;
-                this.longJump = 1;
+                this.jumped = true
             }
             if (this.cursors.left.isDown && this.cursors.right.isUp) {
                 if (this.arcadeBody.velocity.x > 0) this.arcadeBody.velocity.x *= this.GROUND_FRICTION;
@@ -91,6 +91,7 @@ export default class Player extends Phaser.GameObjects.Container {
                 xa += 5;
             } 
             this.longJump++;
+            this.jumped = false;
         }
 
         this.arcadeBody.velocity.x += xa;
@@ -108,7 +109,7 @@ export default class Player extends Phaser.GameObjects.Container {
             this.character.flipX = this.playerState === PlayerState.MovingRight;
         }
         
-        if (this.longJump === 1) {
+        if (this.jumped) {
             if (this.character.anims.currentAnim.key !== AnimationKeys.CharacterJump) {
                 this.character.play({ key: AnimationKeys.CharacterJump, repeat: 0 }, true);
                 this.jumpSound.play();
