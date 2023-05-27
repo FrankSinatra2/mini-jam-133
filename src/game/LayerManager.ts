@@ -9,7 +9,7 @@ type LayerMoveCmd = {
 }
 
 export class LayerManager extends Phaser.GameObjects.Container {
-    private layer!: Phaser.Tilemaps.TilemapLayer;
+    public layer!: Phaser.Tilemaps.TilemapLayer;
     private highlight!: Phaser.GameObjects.Image;
 
     readonly id: number;

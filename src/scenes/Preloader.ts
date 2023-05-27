@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import SceneKeys from "../consts/SceneKeys";
 import TextureKeys from "../consts/TextureKeys";
 import TilemapKeys from "../consts/TilemapKeys";
+import SoundKeys from "../consts/SoundKeys";
 
 export default class Preloader extends Phaser.Scene {
     constructor() {
@@ -23,7 +24,9 @@ export default class Preloader extends Phaser.Scene {
         this.load.tilemapTiledJSON(TilemapKeys.TestMap, 'testMap1.json');
         this.load.tilemapTiledJSON(TilemapKeys.TestCollisionMap, 'testCollisionMap.json');
         this.load.tilemapTiledJSON(TilemapKeys.DebugMap, 'assets/tilemaps/debug-map.json');
-        this.load.audio("kysNOW", ["assets/audio/kysNOW.mp3"]);
+        this.load.audio(SoundKeys.Bgm, ["assets/audio/bgm.mp3"]);
+        this.load.audio(SoundKeys.Walking, ["assets/audio/squidwardWalk.mp3"]);
+        this.load.audio(SoundKeys.Jump, ["assets/audio/jump.mp3"]);
     }
 
     create(): void {
