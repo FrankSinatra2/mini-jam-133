@@ -9,6 +9,13 @@ export default class Game extends Phaser.Scene {
         super(SceneKeys.Game);
     }
 
+
+    update(time: number, delta: number): void {
+        console.log("game update");
+        this.player.update(time, delta);
+    }
+
+
     create(): void {
         const { width, height } = this.scale;
         this.player = new Player(this, width * 0.5, height * 0.5);
