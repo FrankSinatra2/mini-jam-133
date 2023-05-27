@@ -94,6 +94,10 @@ export default class Player extends Phaser.GameObjects.Container {
         }
 
         this.arcadeBody.velocity.x += xa;
+        if (Math.abs(this.arcadeBody.velocity.x) < 0.5) this.arcadeBody.velocity.x = 0;
+        if ( this.arcadeBody.velocity.x === 0 && this.arcadeBody.velocity.y === 0) this.playerState = PlayerState.Idle;
+        else if( this.arcadeBody.velocity.x < 0 ) this.playerState = PlayerState.MovingLeft 
+        else this.playerState = PlayerState.MovingRight 
 
         this.setAnimationByState();
     }
