@@ -5,7 +5,7 @@ import { EventEmitter } from "./EventEmitter";
 export class PuzzleState extends EventEmitter {
     board: number[][] = [];
 
-    openTile: [number, number] = [3, 2];
+    openTile: [number, number] = [3, 3];
 
     constructor() {
         super();
