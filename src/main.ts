@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 
 import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
+import { PuzzleState } from './util/PuzzleState'
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
@@ -17,4 +18,4 @@ const config: Phaser.Types.Core.GameConfig = {
 	scene: [Preloader, Game],
 }
 
-export default new Phaser.Game(config)
+export default new Phaser.Game(config);
