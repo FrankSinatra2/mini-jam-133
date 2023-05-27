@@ -48,7 +48,7 @@ export class PuzzleState extends EventEmitter {
 
         this.openTile = [x, y];
 
-        this.emit('empty-space', { id: this.board[x][y], x: x, y: y});
+        this.emit('active-ids', this.getActiveIds());
 
         return true;
     }
@@ -63,7 +63,6 @@ export class PuzzleState extends EventEmitter {
         ].filter(x => x !== undefined) as number[];
         return result;
     }
-
 
     getIndexOfId(id: number): [number, number] {
         let indexX = -1;
