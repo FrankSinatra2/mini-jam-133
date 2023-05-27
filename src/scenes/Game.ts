@@ -4,9 +4,12 @@ import Player from "../game/Player";
 import TilemapKeys from "../consts/TilemapKeys";
 import TextureKeys from "../consts/TextureKeys";
 import { PuzzleState } from "../util/PuzzleState";
+import { LayerManager } from "../game/LayerManager";
+import EventKeys from "../consts/EventKeys";
 
 export default class Game extends Phaser.Scene {
     private player!: Player;
+    private layers: LayerManager[] = [];
 
     private puzzleState = new PuzzleState();
 
@@ -17,6 +20,7 @@ export default class Game extends Phaser.Scene {
 
     update(time: number, delta: number): void {
         this.player.update(time, delta);
+        this.layers.forEach(x => x.update(time, delta));
     }
 
 
@@ -36,7 +40,17 @@ export default class Game extends Phaser.Scene {
         const testCollisionTileset = map.addTilesetImage(TextureKeys.TestCollision);
         
         const fmtLayer = 'Tile Layer {}';
-        const layers: Phaser.Tilemaps.TilemapLayer[] = [];
+        
+        this.puzzleState.on('active-ids', (activeIds: number[]) => {
+            console.log(activeIds);
+            for (const layerManager of this.layers) {
+                if (activeIds.some(x => x === layerManager.id)) {
+                    layerManager.setHighlight(true);
+                } else {
+                    layerManager.setHighlight(false);
+                }
+            }
+        });
         
         //! @todo Uncomment this
         // this.puzzleState.scramble(50);
@@ -55,15 +69,35 @@ export default class Game extends Phaser.Scene {
 
                 const offset = [gridX - x, gridY - y];
                 
-                const layer = map.createLayer(fmtLayer.replace('{}', `${i+2}`), [incaFrontTileset, incaBackTileset, testCollisionTileset], -offset[0]*20*8, -offset[1]*20*8);
-                
-                console.log(i+1, x, y, gridX, gridY, layer.x, layer.y)
-                layers.push(layer);
+                const layer = debugMap.createLayer(fmtLayer.replace('{}', `${i+2}`), [debugTileset, incaFrontTileset, incaBackTileset, testCollisionTileset], -offset[0]*20*8, -offset[1]*20*8);
+                const manager = new LayerManager(this, x * 20 * 8, y * 20 * 8, layer, i+1, gridX, gridY);
+                manager.on(EventKeys.MoveTile, (id: number) => {
+                    this.moveLayer(id);
+                });
+                this.layers.push(manager);
             }
         }
         
         this.player = new Player(this, width * 0.5, height * 0.5);
-
         this.add.existing(this.player);
+
+        this.puzzleState.emit('active-ids', this.puzzleState.getActiveIds());
+        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {
+            objs.filter(x => x.name === 'tile-highlight').forEach(x => x.emit(EventKeys.HighlightClick));
+        });
+    }
+
+    moveLayer(id: number): void {
+        const [x, y] = this.puzzleState.getIndexOfId(id);
+        const layer = this.layers.find(x => x.id === id);
+        
+        if (!layer || x === -1 || y === -1) {
+            console.log(`Unknown id: ${id}`);
+            return;
+        }
+
+        const [newX, newY] = this.puzzleState.openTile;
+        this.puzzleState.move(x, y);
+        layer.moveLayer(newX, newY);
     }
 }
