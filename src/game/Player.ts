@@ -15,6 +15,7 @@ export default class Player extends Phaser.GameObjects.Container {
     playerState = PlayerState.Idle;
     isOnGround = false;
     isJumping = false;
+    jumpCount = 0;
 
     walkSound: Phaser.Sound.HTML5AudioSound;
     jumpSound: Phaser.Sound.HTML5AudioSound;
@@ -45,12 +46,17 @@ export default class Player extends Phaser.GameObjects.Container {
 
     update(t: number, dt: number): void {
         if (this.arcadeBody.onFloor()) {
-            this.isJumping = false;
+            this.jumpCount = 0;
         }
        //add onWall() ??
         if (!this.cursors.left.isDown && !this.cursors.right.isDown) {
             this.playerState = PlayerState.Idle;
-            this.arcadeBody.velocity.x = 0;
+            if (this.arcadeBody.onFloor()) {
+                this.arcadeBody.velocity.x *= .97;
+            }
+            else {
+                this.arcadeBody.velocity.x *= .999;
+            }
         }
 
         if (this.cursors.left.isDown) {
@@ -62,9 +68,14 @@ export default class Player extends Phaser.GameObjects.Container {
             this.playerState = PlayerState.MovingRight;
             this.arcadeBody.velocity.x = 300;
         } 
-        if (this.isJumping === false && this.cursors.up.isDown) {
-            this.isJumping = true;
-            this.arcadeBody.velocity.y = -500;
+        if (this.cursors.up.isDown) {
+            if(this.jumpCount === 0){
+                this.arcadeBody.velocity.y = -400;
+            }
+            else if (this.jumpCount < 30){
+                this.arcadeBody.velocity.y -= 10;
+            }
+            this.jumpCount++;
         }
 
         this.setAnimationByState();

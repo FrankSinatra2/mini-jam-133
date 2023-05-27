@@ -12,8 +12,12 @@ const config: Phaser.Types.Core.GameConfig = {
 	physics: {
 		default: 'arcade',
 		arcade: {
+<<<<<<< HEAD
 			gravity: { y: 1000 },
 			debug: true
+=======
+			gravity: { y: 2000 },
+>>>>>>> 2b49dc0 (test momentum)
 		},
 	},
 	scene: [Preloader, Game, WinScreen],
