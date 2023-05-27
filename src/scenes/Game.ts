@@ -22,7 +22,9 @@ export default class Game extends Phaser.Scene {
 
     create(): void {
         const { width, height } = this.scale;
-        
+
+        const bgm = this.sound.add("kysNOW", {loop: true});
+        bgm.play();
 
         const debugMap = this.add.tilemap(TilemapKeys.DebugMap);
         const debugTileset = debugMap.addTilesetImage(TextureKeys.DebugTileset);
