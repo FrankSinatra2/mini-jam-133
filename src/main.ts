@@ -6,7 +6,7 @@ import Game from './scenes/Game'
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
 	parent: 'app',
-	width: 80*8,
+	width: 80*10,
 	height: 80*8,
 	physics: {
 		default: 'arcade',
