@@ -53,23 +53,42 @@ export default class Player extends Phaser.GameObjects.Container {
         }
 
         if (this.cursors.left.isDown) {
-            this.playerState = PlayerState.MovingLeft
+            this.playerState = PlayerState.MovingLeft;
             this.arcadeBody.velocity.x = -300;
         }
 
         if (this.cursors.right.isDown) {
-            this.playerState = PlayerState.MovingLeft
+            this.playerState = PlayerState.MovingRight;
             this.arcadeBody.velocity.x = 300;
         } 
         if (this.isJumping === false && this.cursors.up.isDown) {
             this.isJumping = true;
             this.arcadeBody.velocity.y = -500;
         }
+
+        this.setAnimationByState();
     }
 
     
-    // private setAnimationByState(): void {
+    private setAnimationByState(): void {
+        console.log(this.character.anims.currentAnim.key);
+        if (this.playerState !== PlayerState.Idle) {
+            this.character.flipX = this.playerState === PlayerState.MovingRight;
+        }
+        
+        if (this.isJumping) {
+            if (this.character.anims.currentAnim.key !== AnimationKeys.CharacterJump) {
+                this.character.play({ key: AnimationKeys.CharacterJump, repeat: 0 }, true);
+            }
+            return;
+        }
 
-    //     const current = this.character.anims.currentAnim.key;
-    // }
+        if ([PlayerState.MovingLeft, PlayerState.MovingRight].includes(this.playerState)) {
+            this.character.play({ key: AnimationKeys.CharacterWalk, repeat: -1 }, true);
+        }
+
+        if (this.playerState === PlayerState.Idle) {
+            this.character.play({ key: AnimationKeys.CharacterIdle, repeat: -1 }, true);
+        }
+    }
 }

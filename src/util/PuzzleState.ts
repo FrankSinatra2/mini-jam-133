@@ -4,14 +4,13 @@
 
 
 export class PuzzleState {
-    board: number[][] = [
-        [1, 2, 3, 4],
-        [5, 6, 7, 8],
-        [9, 10, 11, 12],
-        [13, 14, 15, 16]
-    ];
+    board: number[][] = [];
 
     openTile: [number, number] = [3, 3];
+
+    constructor() {
+        this.reset();
+    }
 
     isMoveable(x: number, y: number): boolean {
 
@@ -89,6 +88,15 @@ export class PuzzleState {
             const choiceIndex = this.getIndexOfId(choiceId);
             this.move(choiceIndex[0], choiceIndex[1]);
         }
+    }
+
+    reset(): void {
+        this.board = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12],
+            [13, 14, 15, 16]
+        ];
     }
 
     toString(): string {

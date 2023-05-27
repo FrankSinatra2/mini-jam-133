@@ -7,13 +7,13 @@ import TextureKeys from "../consts/TextureKeys";
 export default class Game extends Phaser.Scene {
     private player!: Player;
 
+
     constructor() {
         super(SceneKeys.Game);
     }
 
 
     update(time: number, delta: number): void {
-        console.log("game update");
         this.player.update(time, delta);
     }
 
@@ -31,8 +31,8 @@ export default class Game extends Phaser.Scene {
         const fmtLayer = 'Tile Layer {}';
         const layers: Phaser.Tilemaps.TilemapLayer[] = [];
 
-        for (let i = 0; i < 15; i++) {
-            const layer = map.createLayer(fmtLayer.replace('{}', `${i + 2}`), [tilesetFront, tilesetBack]);
+        for (let i = 0; i < 16; i++) {
+            const layer = map.createLayer(fmtLayer.replace('{}', `${i + 1}`), [tilesetFront, tilesetBack]);
             layers.push(layer);
         }
 
