@@ -1,6 +1,7 @@
 enum SceneKeys {
     Preloader = 'preloader',
-    Game = 'game'
+    Game = 'game',
+    WinScreen = 'winScreen'
 }
 
 export default SceneKeys;
