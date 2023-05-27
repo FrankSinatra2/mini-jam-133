@@ -5,6 +5,7 @@ import Flag from "../game/Flag";
 import TilemapKeys from "../consts/TilemapKeys";
 import TextureKeys from "../consts/TextureKeys";
 import { PuzzleState } from "../util/PuzzleState";
+import Timer from "../game/Timer";
 import { LayerManager } from "../game/LayerManager";
 import EventKeys from "../consts/EventKeys";
 import SoundKeys from "../consts/SoundKeys";
@@ -12,17 +13,17 @@ import SoundKeys from "../consts/SoundKeys";
 export default class Game extends Phaser.Scene {
     private player!: Player;
     private flag!: Flag;
+    private timer!: Timer;
     private layers: LayerManager[] = [];
-
     private puzzleState = new PuzzleState();
 
     constructor() {
         super(SceneKeys.Game);
     }
 
-
     update(time: number, delta: number): void {
         this.player.update(time, delta);
+        this.timer.update(time, delta);
         this.layers.forEach(x => x.update(time, delta));
     }
 
@@ -84,6 +85,9 @@ export default class Game extends Phaser.Scene {
                 this.layers.push(manager);
             }
         }
+
+        this.timer = new Timer(this, width * 0.85 , height * 0.05);
+        this.add.existing(this.timer);
         
         this.player = new Player(this, width * 0.5, height * 0.5);
         this.flag = new Flag(this, width * 0.6, height * 0.6);
