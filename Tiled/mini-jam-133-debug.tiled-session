@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "debug-map.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -15,12 +15,13 @@
             "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 266,
-                "y": 377
+                "x": -35,
+                "y": 380
             }
         },
         "debug-map.tmx#debug-tileset": {
-            "scaleInDock": 11
+            "scaleInDock": 11,
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "D:/dev/mini-jam-133/Tiled",
@@ -30,7 +31,6 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 80,
     "openFiles": [
-        "debug-map.tmx"
     ],
     "project": "mini-jam-133-debug.tiled-project",
     "recentFiles": [
