@@ -1,19 +1,18 @@
+import { EventEmitter } from "./EventEmitter";
 
 
 
-
-
-export class PuzzleState {
+export class PuzzleState extends EventEmitter {
     board: number[][] = [];
 
     openTile: [number, number] = [3, 3];
 
     constructor() {
+        super();
         this.reset();
     }
 
     isMoveable(x: number, y: number): boolean {
-
         const isAdjacentOnRow: boolean = (x === this.openTile[0] + 1 || x === this.openTile[0] - 1);
         const isAdjacentOnCol: boolean = (y === this.openTile[1] + 1 || y === this.openTile[1] - 1);
         // Check if the input is valid
@@ -48,6 +47,8 @@ export class PuzzleState {
         this.board[x][y] = previous;
 
         this.openTile = [x, y];
+
+        this.emit('empty-space', { id: this.board[x][y], x: x, y: y});
 
         return true;
     }
