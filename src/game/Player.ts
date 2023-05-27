@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import TextureKeys from '../consts/TextureKeys';
 import AnimationKeys from '../consts/AnimationKeys';
+import SoundKeys from '../consts/SoundKeys';
 
 enum PlayerState {
     Idle,
@@ -15,14 +16,11 @@ export default class Player extends Phaser.GameObjects.Container {
     isOnGround = false;
     isJumping = false;
 
+    walkSound: Phaser.Sound.HTML5AudioSound;
+    jumpSound: Phaser.Sound.HTML5AudioSound;
+
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
     private character!: Phaser.GameObjects.Sprite;
-
-
-    // get feet(): number {
-    //     // const body = this.body as Phaser.Physics.Arcade.Body;
-    //     return this.arcadeBody.bottom;
-    // }
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y);
@@ -35,9 +33,12 @@ export default class Player extends Phaser.GameObjects.Container {
 
         scene.physics.add.existing(this);
         this.arcadeBody = this.body as Phaser.Physics.Arcade.Body;
-        this.arcadeBody.setSize(this.character.width, this.character.height);
+        this.arcadeBody.setSize(this.character.width * 0.8, this.character.height);
         this.arcadeBody.setOffset(-this.character.width * 0.5, -this.character.height);
         this.arcadeBody.setCollideWorldBounds(true);
+
+        this.walkSound = scene.sound.add(SoundKeys.Walking, {loop: true}) as Phaser.Sound.HTML5AudioSound;
+        this.jumpSound = scene.sound.add(SoundKeys.Jump, {loop: false}) as Phaser.Sound.HTML5AudioSound;
 
         this.cursors = scene.input!.keyboard!.createCursorKeys();
     }
@@ -78,6 +79,8 @@ export default class Player extends Phaser.GameObjects.Container {
         if (this.isJumping) {
             if (this.character.anims.currentAnim.key !== AnimationKeys.CharacterJump) {
                 this.character.play({ key: AnimationKeys.CharacterJump, repeat: 0 }, true);
+                this.jumpSound.play();
+                this.walkSound.stop();
             }
             return;
         }
@@ -88,6 +91,14 @@ export default class Player extends Phaser.GameObjects.Container {
 
         if (this.playerState === PlayerState.Idle) {
             this.character.play({ key: AnimationKeys.CharacterIdle, repeat: -1 }, true);
+            this.walkSound.stop();
+        }
+
+        // If walking on ground
+        if (this.isJumping === false && (this.playerState === PlayerState.MovingRight || this.playerState === PlayerState.MovingLeft)) {
+            if (!this.walkSound.isPlaying) {
+                this.walkSound.play();
+            }
         }
     }
 }
