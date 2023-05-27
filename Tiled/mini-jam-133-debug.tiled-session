@@ -1,0 +1,44 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "debug-map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInEditor": 1
+        },
+        "debug-map.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 266,
+                "y": 377
+            }
+        },
+        "debug-map.tmx#debug-tileset": {
+            "scaleInDock": 11
+        }
+    },
+    "last.exportedFilePath": "D:/dev/mini-jam-133/Tiled",
+    "last.imagePath": "D:/dev/mini-jam-133/Tiled",
+    "map.height": 80,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.width": 80,
+    "openFiles": [
+        "debug-map.tmx"
+    ],
+    "project": "mini-jam-133-debug.tiled-project",
+    "recentFiles": [
+        "debug-map.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 8,
+        "width": 8
+    }
+}

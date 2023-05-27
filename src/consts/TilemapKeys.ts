@@ -1,5 +1,6 @@
 enum TilemapKeys {
-    TestMap = 'test-map'
+    TestMap = 'test-map',
+    DebugMap = 'debug-map'
 }
 
 export default TilemapKeys;

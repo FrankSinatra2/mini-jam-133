@@ -2,7 +2,6 @@ import Phaser from 'phaser'
 
 import Preloader from './scenes/Preloader'
 import Game from './scenes/Game'
-import { PuzzleState } from './util/PuzzleState'
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
@@ -13,6 +12,7 @@ const config: Phaser.Types.Core.GameConfig = {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 1000 },
+			debug: true
 		},
 	},
 	scene: [Preloader, Game],

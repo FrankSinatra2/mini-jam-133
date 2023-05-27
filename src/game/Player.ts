@@ -71,7 +71,6 @@ export default class Player extends Phaser.GameObjects.Container {
 
     
     private setAnimationByState(): void {
-        console.log(this.character.anims.currentAnim.key);
         if (this.playerState !== PlayerState.Idle) {
             this.character.flipX = this.playerState === PlayerState.MovingRight;
         }
