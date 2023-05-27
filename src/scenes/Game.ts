@@ -37,8 +37,7 @@ export default class Game extends Phaser.Scene {
         const debugMap = this.add.tilemap(TilemapKeys.DebugMap);
         const debugTileset = debugMap.addTilesetImage(TextureKeys.DebugTileset);
 
-        // const map = this.add.tilemap(TilemapKeys.TestMap);
-        const map = this.add.tilemap(TilemapKeys.TestCollisionMap);
+        const map = this.add.tilemap(TilemapKeys.Map1);
         const incaFrontTileset = map.addTilesetImage(TextureKeys.IncaTilesetFront);
         const incaBackTileset = map.addTilesetImage(TextureKeys.IncaTilesetBack);
         const testCollisionTileset = map.addTilesetImage(TextureKeys.TestCollision);
@@ -57,7 +56,7 @@ export default class Game extends Phaser.Scene {
         });
         
         //! @todo Uncomment this
-        // this.puzzleState.scramble(50);
+        this.puzzleState.scramble(50);
 
         let i = -1;
         for (let gridY = 0; gridY < 4; gridY++) {
@@ -89,8 +88,8 @@ export default class Game extends Phaser.Scene {
         this.timer = new Timer(this, width * 0.85 , height * 0.05);
         this.add.existing(this.timer);
         
-        this.player = new Player(this, width * 0.5, height * 0.5);
-        this.flag = new Flag(this, width * 0.6, height * 0.6);
+        this.player = new Player(this, width * 0.1, height * 0.1);
+        this.flag = new Flag(this, width * 0.78, height * 0.79);
         
         this.add.existing(this.player);
         this.add.existing(this.flag);
