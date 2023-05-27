@@ -20,6 +20,7 @@ export default class Game extends Phaser.Scene {
 
     update(time: number, delta: number): void {
         this.player.update(time, delta);
+        this.layers.forEach(x => x.update(time, delta));
     }
 
 
@@ -47,7 +48,7 @@ export default class Game extends Phaser.Scene {
             }
         });
         
-        // this.puzzleState.scramble(50);
+        this.puzzleState.scramble(50);
         let i = -1;
         for (let gridY = 0; gridY < 4; gridY++) {
             for (let gridX = 0; gridX < 4; gridX++) {

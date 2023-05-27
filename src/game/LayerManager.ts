@@ -2,6 +2,11 @@ import Phaser from "phaser";
 import TextureKeys from "../consts/TextureKeys";
 import EventKeys from "../consts/EventKeys";
 
+type LayerMoveCmd = {
+    inital: [number, number];
+    new: [number, number];
+    lerpValue: number;
+}
 
 export class LayerManager extends Phaser.GameObjects.Container {
     private layer!: Phaser.Tilemaps.TilemapLayer;
@@ -10,6 +15,13 @@ export class LayerManager extends Phaser.GameObjects.Container {
     readonly id: number;
     readonly gridX: number;
     readonly gridY: number;
+
+
+    private moveCmd?: LayerMoveCmd;
+
+    get isMoving(): boolean {
+        return !!this.moveCmd;
+    };
 
     get isMoveable(): boolean {
         return this.highlight.visible;
@@ -39,21 +51,40 @@ export class LayerManager extends Phaser.GameObjects.Container {
     }
 
     moveLayer(x: number, y: number): void {
-        const offset = [this.gridX - x, this.gridY - y];
+        const offset: [number, number] = [this.gridX - x, this.gridY - y];
         const newX = -offset[0]*20*8;
         const newY = -offset[1]*20*8;
 
-       
-        console.log(this.layer);
-        console.log(this.layer.x, this.layer.y);
-        this.layer.setPosition(newX, newY);
-        // this.layer.setDepth(90);
-        // this.layer.setPosition= x;
-        // this.layer.y = y;
-
-        //this.setPosition(newX, newY);
         this.highlight.setPosition(x*20*8, y*20*8);
+       // this.layer.setPosition(newX, newY);
+
+        this.moveCmd = {
+            lerpValue: 0,
+            new: [newX, newY],
+            inital: [this.layer.x, this.layer.y]
+        };
     }
 
 
+    update(t: number, dt: number): void {
+        this.lerpTo(dt);
+    }
+
+    private lerpTo(dt: number): void {
+        if (!this.isMoving || !this.moveCmd) {
+            return;
+        }
+        
+        const newX = Phaser.Math.Linear(this.moveCmd.inital[0], this.moveCmd.new[0], this.moveCmd.lerpValue);
+        const newY = Phaser.Math.Linear(this.moveCmd.inital[1], this.moveCmd.new[1], this.moveCmd.lerpValue);
+
+        this.layer.setPosition(newX, newY);
+
+        this.moveCmd.lerpValue += 0.01 * dt;
+
+        if (1 - this.moveCmd.lerpValue < Phaser.Math.EPSILON) {
+            this.layer.setPosition(this.moveCmd.new[0], this.moveCmd.new[1]);
+            this.moveCmd = undefined;
+        }
+    }
 }
