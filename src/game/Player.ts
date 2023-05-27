@@ -46,7 +46,7 @@ export default class Player extends Phaser.GameObjects.Container {
         if (this.arcadeBody.onFloor()) {
             this.isJumping = false;
         }
-       
+       //add onWall() ??
         if (!this.cursors.left.isDown && !this.cursors.right.isDown) {
             this.playerState = PlayerState.Idle;
             this.arcadeBody.velocity.x = 0;
@@ -54,13 +54,17 @@ export default class Player extends Phaser.GameObjects.Container {
 
         if (this.cursors.left.isDown) {
             this.playerState = PlayerState.MovingLeft
-            this.arcadeBody.velocity.x = -50;
+            this.arcadeBody.velocity.x = -300;
         }
 
         if (this.cursors.right.isDown) {
             this.playerState = PlayerState.MovingLeft
-            this.arcadeBody.velocity.x = 50;
+            this.arcadeBody.velocity.x = 300;
         } 
+        if (this.isJumping === false && this.cursors.up.isDown) {
+            this.isJumping = true;
+            this.arcadeBody.velocity.y = -500;
+        }
     }
 
     
