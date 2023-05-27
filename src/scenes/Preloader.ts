@@ -20,6 +20,7 @@ export default class Preloader extends Phaser.Scene {
         this.load.image(TextureKeys.DebugTileset, 'assets/tilesets/debug-tileset.png');
         this.load.tilemapTiledJSON(TilemapKeys.TestMap, 'testMap1.json');
         this.load.tilemapTiledJSON(TilemapKeys.DebugMap, 'assets/tilemaps/debug-map.json');
+        this.load.tilemapTiledJSON(TilemapKeys.Map1, 'assets/tilemaps/map1.json');
     }
 
     create(): void {

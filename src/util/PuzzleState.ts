@@ -6,7 +6,7 @@
 export class PuzzleState {
     board: number[][] = [];
 
-    openTile: [number, number] = [3, 3];
+    openTile: [number, number] = [3, 2];
 
     constructor() {
         this.reset();
