@@ -4,9 +4,11 @@ import Player from "../game/Player";
 import TilemapKeys from "../consts/TilemapKeys";
 import TextureKeys from "../consts/TextureKeys";
 import { PuzzleState } from "../util/PuzzleState";
+import Timer from "../game/Timer";
 
 export default class Game extends Phaser.Scene {
     private player!: Player;
+    private timer!: Timer;
 
     private puzzleState = new PuzzleState();
 
@@ -17,6 +19,7 @@ export default class Game extends Phaser.Scene {
 
     update(time: number, delta: number): void {
         this.player.update(time, delta);
+        this.timer.update(time, delta);
     }
 
 
@@ -49,15 +52,17 @@ export default class Game extends Phaser.Scene {
 
                 const offset = [gridX - x, gridY - y];
                 
-                const layer = map.createLayer(fmtLayer.replace('{}', `${i+2}`), [incaFrontTileset, incaBackTileset], -offset[0]*20*8, -offset[1]*20*8);
+                const layer = debugMap.createLayer(fmtLayer.replace('{}', `${i+2}`), [debugTileset, incaFrontTileset, incaBackTileset], -offset[0]*20*8, -offset[1]*20*8);
                 
                 console.log(i+1, x, y, gridX, gridY, layer.x, layer.y)
                 layers.push(layer);
             }
         }
-        
-        this.player = new Player(this, width * 0.5, height * 0.5);
 
+        this.player = new Player(this, width * 0.5, height * 0.5);
         this.add.existing(this.player);
+
+        this.timer = new Timer(this, width * 0.85 , height * 0.05);
+        this.add.existing(this.timer);
     }
 }
