@@ -2,7 +2,6 @@ import Phaser from "phaser";
 import SceneKeys from "../consts/SceneKeys";
 import TextureKeys from "../consts/TextureKeys";
 import TilemapKeys from "../consts/TilemapKeys";
-// import kysNOW.mp3 from "../..assets/audio";
 
 export default class Preloader extends Phaser.Scene {
     constructor() {
@@ -18,8 +17,10 @@ export default class Preloader extends Phaser.Scene {
 
         this.load.image(TextureKeys.IncaTilesetFront, 'inca_front.png');
         this.load.image(TextureKeys.IncaTilesetBack, 'inca_back2.png');
+        this.load.image(TextureKeys.TestCollision, 'inca_back2.png');
         this.load.image(TextureKeys.DebugTileset, 'assets/tilesets/debug-tileset.png');
         this.load.tilemapTiledJSON(TilemapKeys.TestMap, 'testMap1.json');
+        this.load.tilemapTiledJSON(TilemapKeys.TestCollisionMap, 'testCollisionMap.json');
         this.load.tilemapTiledJSON(TilemapKeys.DebugMap, 'assets/tilemaps/debug-map.json');
         this.load.audio("kysNOW", ["assets/audio/kysNOW.mp3"]);
     }

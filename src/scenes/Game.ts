@@ -29,14 +29,18 @@ export default class Game extends Phaser.Scene {
         const debugMap = this.add.tilemap(TilemapKeys.DebugMap);
         const debugTileset = debugMap.addTilesetImage(TextureKeys.DebugTileset);
 
-        const map = this.add.tilemap(TilemapKeys.TestMap);
+        // const map = this.add.tilemap(TilemapKeys.TestMap);
+        const map = this.add.tilemap(TilemapKeys.TestCollisionMap);
         const incaFrontTileset = map.addTilesetImage(TextureKeys.IncaTilesetFront);
         const incaBackTileset = map.addTilesetImage(TextureKeys.IncaTilesetBack);
+        const testCollisionTileset = map.addTilesetImage(TextureKeys.TestCollision);
         
         const fmtLayer = 'Tile Layer {}';
         const layers: Phaser.Tilemaps.TilemapLayer[] = [];
         
-        this.puzzleState.scramble(50);
+        //! @todo Uncomment this
+        // this.puzzleState.scramble(50);
+
         let i = -1;
         for (let gridY = 0; gridY < 4; gridY++) {
             for (let gridX = 0; gridX < 4; gridX++) {
@@ -51,7 +55,7 @@ export default class Game extends Phaser.Scene {
 
                 const offset = [gridX - x, gridY - y];
                 
-                const layer = map.createLayer(fmtLayer.replace('{}', `${i+2}`), [incaFrontTileset, incaBackTileset], -offset[0]*20*8, -offset[1]*20*8);
+                const layer = map.createLayer(fmtLayer.replace('{}', `${i+2}`), [incaFrontTileset, incaBackTileset, testCollisionTileset], -offset[0]*20*8, -offset[1]*20*8);
                 
                 console.log(i+1, x, y, gridX, gridY, layer.x, layer.y)
                 layers.push(layer);

@@ -18,12 +18,6 @@ export default class Player extends Phaser.GameObjects.Container {
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
     private character!: Phaser.GameObjects.Sprite;
 
-
-    // get feet(): number {
-    //     // const body = this.body as Phaser.Physics.Arcade.Body;
-    //     return this.arcadeBody.bottom;
-    // }
-
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y);
 
@@ -45,6 +39,7 @@ export default class Player extends Phaser.GameObjects.Container {
     update(t: number, dt: number): void {
         if (this.arcadeBody.onFloor()) {
             this.isJumping = false;
+            
         }
        //add onWall() ??
         if (!this.cursors.left.isDown && !this.cursors.right.isDown) {
