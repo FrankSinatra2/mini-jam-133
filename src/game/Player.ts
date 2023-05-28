@@ -13,8 +13,12 @@ export default class Player extends Phaser.GameObjects.Container {
     arcadeBody!: Phaser.Physics.Arcade.Body;
 
     playerState = PlayerState.Idle;
-    isOnGround = false;
-    isJumping = false;
+    longJump = 0;
+    jumpLock = false;
+    cyote = 0;
+    jumped = false;
+    
+    readonly GROUND_FRICTION = 0.96;
 
     walkSound: Phaser.Sound.HTML5AudioSound;
     jumpSound: Phaser.Sound.HTML5AudioSound;
@@ -43,29 +47,58 @@ export default class Player extends Phaser.GameObjects.Container {
         this.cursors = scene.input!.keyboard!.createCursorKeys();
     }
 
-    update(t: number, dt: number): void {
+    update(_t: number, _dt: number): void {
+        if (this.cursors.up.isUp) this.jumpLock = false;
+
         if (this.arcadeBody.onFloor()) {
-            this.isJumping = false;
+            this.cyote = 0;
+            this.longJump = 0;
         }
-       //add onWall() ??
-        if (!this.cursors.left.isDown && !this.cursors.right.isDown) {
-            this.playerState = PlayerState.Idle;
-            this.arcadeBody.velocity.x = 0;
-        }
-
-        if (this.cursors.left.isDown) {
-            this.playerState = PlayerState.MovingLeft;
-            this.arcadeBody.velocity.x = -300;
+        else {
+            this.cyote++;
+            if (this.cyote > 60) this.cyote = 60;
         }
 
-        if (this.cursors.right.isDown) {
-            this.playerState = PlayerState.MovingRight;
-            this.arcadeBody.velocity.x = 300;
-        } 
-        if (this.isJumping === false && this.cursors.up.isDown) {
-            this.isJumping = true;
-            this.arcadeBody.velocity.y = -500;
+        let xa:number = 0;
+
+        // On ground
+        if (this.cyote < 6) {
+            if (this.cursors.up.isDown && this.longJump === 0 && !this.jumpLock) {
+                this.jumpLock = true;
+                this.arcadeBody.velocity.y = - 400;
+                this.cyote = 60;
+                this.jumped = true
+            }
+            if (this.cursors.left.isDown && this.cursors.right.isUp) {
+                if (this.arcadeBody.velocity.x > 0) this.arcadeBody.velocity.x *= this.GROUND_FRICTION;
+                xa -= 7
+            }
+            else if (this.cursors.right.isDown && this.cursors.left.isUp) {
+                if (this.arcadeBody.velocity.x < 0) this.arcadeBody.velocity.x *= this.GROUND_FRICTION;
+                xa += 7;
+            } 
+            else {
+                this.arcadeBody.velocity.x *= this.GROUND_FRICTION
+            }
         }
+        // in air
+        else {
+            if (this.cursors.up.isDown && this.longJump < 45) this.arcadeBody.velocity.y -= 10;
+            if (this.cursors.left.isDown) {
+                xa -= 5
+            }
+            if (this.cursors.right.isDown) {
+                xa += 5;
+            } 
+            this.longJump++;
+            this.jumped = false;
+        }
+
+        this.arcadeBody.velocity.x += xa;
+        if (Math.abs(this.arcadeBody.velocity.x) < 0.5) this.arcadeBody.velocity.x = 0;
+        if ( this.arcadeBody.velocity.x === 0 && this.arcadeBody.velocity.y === 0) this.playerState = PlayerState.Idle;
+        else if( this.arcadeBody.velocity.x < 0 ) this.playerState = PlayerState.MovingLeft 
+        else this.playerState = PlayerState.MovingRight 
 
         this.setAnimationByState();
     }
@@ -76,7 +109,7 @@ export default class Player extends Phaser.GameObjects.Container {
             this.character.flipX = this.playerState === PlayerState.MovingRight;
         }
         
-        if (this.isJumping) {
+        if (this.jumped) {
             if (this.character.anims.currentAnim.key !== AnimationKeys.CharacterJump) {
                 this.character.play({ key: AnimationKeys.CharacterJump, repeat: 0 }, true);
                 this.jumpSound.play();
@@ -95,7 +128,7 @@ export default class Player extends Phaser.GameObjects.Container {
         }
 
         // If walking on ground
-        if (this.isJumping === false && (this.playerState === PlayerState.MovingRight || this.playerState === PlayerState.MovingLeft)) {
+        if (this.cyote < 6 && (this.playerState === PlayerState.MovingRight || this.playerState === PlayerState.MovingLeft)) {
             if (!this.walkSound.isPlaying) {
                 this.walkSound.play();
             }
