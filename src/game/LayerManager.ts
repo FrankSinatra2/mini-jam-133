@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import TextureKeys from "../consts/TextureKeys";
 import EventKeys from "../consts/EventKeys";
+import SoundKeys from "../consts/SoundKeys";
+import { pickRandom } from "../util/pick-random";
 
 type LayerMoveCmd = {
     inital: [number, number];
@@ -16,12 +18,14 @@ export class LayerManager extends Phaser.GameObjects.Container {
     readonly gridX: number;
     readonly gridY: number;
 
+    private tileMoveSounds: Phaser.Sound.BaseSound[] = [];
+    private tileClickSounds: Phaser.Sound.BaseSound[] = [];
 
     private moveCmd?: LayerMoveCmd;
 
     get isMoving(): boolean {
         return !!this.moveCmd;
-    };
+    }
 
     get isMoveable(): boolean {
         return this.highlight.visible;
@@ -44,6 +48,19 @@ export class LayerManager extends Phaser.GameObjects.Container {
         this.id = id;
         this.gridX = gridX;
         this.gridY = gridY;
+
+        this.tileMoveSounds.push(scene.sound.add(SoundKeys.TileMoveLower, { loop: false, volume: 0.1 }));
+        this.tileMoveSounds.push(scene.sound.add(SoundKeys.TileMoveStandard, { loop: false, volume: 0.1 }));
+        this.tileMoveSounds.push(scene.sound.add(SoundKeys.TileMoveHigher, { loop: false, volume: 0.1 }));
+
+        //this.tileClickSounds.push(scene.sound.add(SoundKeys.TileClick1, { loop: false, volume: 0.3 }));
+        this.tileClickSounds.push(scene.sound.add(SoundKeys.TileClick2, { loop: false, volume: 0.2 }));
+        // start sooner?
+        // this.tileClickSounds.push(scene.sound.add(SoundKeys.TileClick3, { loop: false, volume: 0.3 }));
+        // start sooner?
+        // this.tileClickSounds.push(scene.sound.add(SoundKeys.TileClick4, { loop: false, volume: 0.3 }));
+        this.tileClickSounds.push(scene.sound.add(SoundKeys.TileClick5, { loop: false, volume: 0.8 }));
+        this.tileClickSounds.push(scene.sound.add(SoundKeys.TileClick6, { loop: false, volume: 0.3 }));
     }
 
     setHighlight(visible: boolean): void {
@@ -56,8 +73,8 @@ export class LayerManager extends Phaser.GameObjects.Container {
         const newY = -offset[1]*20*8;
 
         this.highlight.setPosition(x*20*8, y*20*8);
-       // this.layer.setPosition(newX, newY);
 
+        pickRandom(this.tileMoveSounds).play();
         this.moveCmd = {
             lerpValue: 0,
             new: [newX, newY],
@@ -66,7 +83,7 @@ export class LayerManager extends Phaser.GameObjects.Container {
     }
 
 
-    update(t: number, dt: number): void {
+    update(_t: number, dt: number): void {
         this.lerpTo(dt);
     }
 
@@ -80,11 +97,18 @@ export class LayerManager extends Phaser.GameObjects.Container {
 
         this.layer.setPosition(newX, newY);
 
-        this.moveCmd.lerpValue += 0.01 * dt;
+        this.moveCmd.lerpValue += 0.007 * dt;
 
         if (1 - this.moveCmd.lerpValue < Phaser.Math.EPSILON) {
+            // this.stopSounds();
+            pickRandom(this.tileClickSounds).play();
             this.layer.setPosition(this.moveCmd.new[0], this.moveCmd.new[1]);
             this.moveCmd = undefined;
         }
+    }
+
+    private stopSounds(): void {
+        this.tileClickSounds.forEach(x => x.stop());
+        this.tileMoveSounds.forEach(x => x.stop());
     }
 }

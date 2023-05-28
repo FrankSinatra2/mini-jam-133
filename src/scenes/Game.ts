@@ -45,7 +45,6 @@ export default class Game extends Phaser.Scene {
         const fmtLayer = 'Tile Layer {}';
         
         this.puzzleState.on('active-ids', (activeIds: number[]) => {
-            console.log(activeIds);
             for (const layerManager of this.layers) {
                 if (activeIds.some(x => x === layerManager.id)) {
                     layerManager.setHighlight(true);
