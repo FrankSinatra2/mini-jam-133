@@ -9,7 +9,7 @@ export default class WinScreen extends Phaser.Scene {
     }
 
     create(): void {
-        const winMusic = this.sound.add(SoundKeys.Win, {loop: true});
+        const winMusic = this.sound.add(SoundKeys.Win, {loop: true, volume: .05});
         winMusic.play();
 
         const {width, height} = this.scale;
