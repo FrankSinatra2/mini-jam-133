@@ -37,12 +37,12 @@ export default class Player extends Phaser.GameObjects.Container {
 
         scene.physics.add.existing(this);
         this.arcadeBody = this.body as Phaser.Physics.Arcade.Body;
-        this.arcadeBody.setSize(this.character.width * 0.8, this.character.height);
+        this.arcadeBody.setSize(this.character.width * 0.75, this.character.height * 0.85);
         this.arcadeBody.setOffset(-this.character.width * 0.5, -this.character.height);
         this.arcadeBody.setCollideWorldBounds(true);
 
-        this.walkSound = scene.sound.add(SoundKeys.Walking, {loop: true}) as Phaser.Sound.HTML5AudioSound;
-        this.jumpSound = scene.sound.add(SoundKeys.Jump, {loop: false}) as Phaser.Sound.HTML5AudioSound;
+        this.walkSound = scene.sound.add(SoundKeys.Walking, {loop: true, volume: .15}) as Phaser.Sound.HTML5AudioSound;
+        this.jumpSound = scene.sound.add(SoundKeys.Jump1, {loop: false}) as Phaser.Sound.HTML5AudioSound;
 
         this.cursors = scene.input!.keyboard!.createCursorKeys();
     }

@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser, { Sound } from "phaser";
 import SceneKeys from "../consts/SceneKeys";
 import Player from "../game/Player";
 import Flag from "../game/Flag";
@@ -9,6 +9,7 @@ import Timer from "../game/Timer";
 import { LayerManager } from "../game/LayerManager";
 import EventKeys from "../consts/EventKeys";
 import SoundKeys from "../consts/SoundKeys";
+import { pickRandom } from "../util/pick-random";
 
 export default class Game extends Phaser.Scene {
     private player!: Player;
@@ -31,8 +32,9 @@ export default class Game extends Phaser.Scene {
     create(): void {
         const { width, height } = this.scale;
 
-        const backgroundMusic = this.sound.add(SoundKeys.Bgm, {loop: true});
-        // backgroundMusic.play();
+
+        const backgroundMusic = this.sound.add(pickRandom([SoundKeys.BGMBird, SoundKeys.BGMCrickets, SoundKeys.BGMWater]), {loop: true});
+        backgroundMusic.play();
 
         const debugMap = this.add.tilemap(TilemapKeys.DebugMap);
         const debugTileset = debugMap.addTilesetImage(TextureKeys.DebugTileset);

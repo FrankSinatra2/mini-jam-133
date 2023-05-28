@@ -1,7 +1,8 @@
 enum SoundKeys {
-    Bgm = 'bgm',
     Walking = 'walking',
-    Jump = 'jump',
+    Jump1 = 'Jump-Sound-1',
+    Jump2 = 'Jump-Sound-2',
+    Jump3 = 'Jump-Sound-3',
     Win = 'win',
     TileClick1 = 'tile-click-1',
     TileClick2 = 'tile-click-2',
@@ -12,7 +13,12 @@ enum SoundKeys {
 
     TileMoveLower = 'tile-move-lower',
     TileMoveStandard = 'tile-move-standard',
-    TileMoveHigher = 'tile-move-highter'
+    TileMoveHigher = 'tile-move-highter',
+    
+    BGMBird = 'birds',
+    BGMCrickets = 'crickets',
+    BGMWater = 'water-drops'
+
 }
 
 export default SoundKeys;

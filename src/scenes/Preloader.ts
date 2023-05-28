@@ -27,9 +27,13 @@ export default class Preloader extends Phaser.Scene {
         this.load.tilemapTiledJSON(TilemapKeys.Map1, 'assets/tilemaps/map1.json');
         
         // audio
-        this.load.audio(SoundKeys.Bgm, ["assets/audio/bgm.mp3"]);
+        this.load.audio(SoundKeys.BGMBird, ["assets/audio/soundscapes/birds.ogg"]);
+        this.load.audio(SoundKeys.BGMCrickets, ["assets/audio/soundscapes/crickets.ogg"]);
+        this.load.audio(SoundKeys.BGMWater, ["assets/audio/soundscapes/water-drops.ogg"]);
         this.load.audio(SoundKeys.Walking, ["assets/audio/squidwardWalk.mp3"]);
-        this.load.audio(SoundKeys.Jump, ["assets/audio/jump.mp3"]);
+        this.load.audio(SoundKeys.Jump1, ["assets/audio/jump/Jump_Sound_1-converted.ogg"]);
+        this.load.audio(SoundKeys.Jump2, ["assets/audio/jump/Jump_Sound_2-converted.ogg"]);
+        this.load.audio(SoundKeys.Jump3, ["assets/audio/jump/Jump_Sound_3-converted.ogg"]);
         this.load.audio(SoundKeys.Win, ["assets/audio/win.mp3"]);
 
         this.load.audio(SoundKeys.TileClick1, 'assets/audio/tileclick/click-1.ogg');
