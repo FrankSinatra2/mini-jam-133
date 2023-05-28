@@ -45,7 +45,6 @@ export default class Game extends Phaser.Scene {
         const fmtLayer = 'Tile Layer {}';
         
         this.puzzleState.on('active-ids', (activeIds: number[]) => {
-            console.log(activeIds);
             for (const layerManager of this.layers) {
                 if (activeIds.some(x => x === layerManager.id)) {
                     layerManager.setHighlight(true);
@@ -101,6 +100,8 @@ export default class Game extends Phaser.Scene {
 
         // Make the player collidable with the flag
         this.physics.add.overlap(this.player, this.flag, ()=>{
+            this.sound.stopAll();
+            this.layers = [];
             this.scene.start(SceneKeys.WinScreen);
         });
 
