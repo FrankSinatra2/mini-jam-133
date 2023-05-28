@@ -84,7 +84,7 @@ export default class Game extends Phaser.Scene {
             }
         }
 
-        this.timer = new Timer(this, width * 0.85 , height * 0.05);
+        this.timer = new Timer(this, width * 0.835 , height * 0.05);
         this.add.existing(this.timer);
         
         this.player = new Player(this, width * 0.1, height * 0.1);
@@ -102,6 +102,7 @@ export default class Game extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.flag, ()=>{
             this.sound.stopAll();
             this.layers = [];
+            this.timer.stop();
             this.scene.start(SceneKeys.WinScreen);
         });
 
