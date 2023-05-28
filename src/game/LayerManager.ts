@@ -106,9 +106,4 @@ export class LayerManager extends Phaser.GameObjects.Container {
             this.moveCmd = undefined;
         }
     }
-
-    private stopSounds(): void {
-        this.tileClickSounds.forEach(x => x.stop());
-        this.tileMoveSounds.forEach(x => x.stop());
-    }
 }
