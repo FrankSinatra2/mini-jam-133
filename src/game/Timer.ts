@@ -33,7 +33,7 @@ export default class Timer extends Phaser.GameObjects.Container {
         }
     }
 
-    update(...args: any[]): void {
+    update(): void {
         this.currentTime = new Date().getTime();
         this.timerLabel.text = `Time: ${this.time}`;
     }

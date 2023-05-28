@@ -1,4 +1,4 @@
-import Phaser, { Sound } from "phaser";
+import Phaser from "phaser";
 import SceneKeys from "../consts/SceneKeys";
 import Player from "../game/Player";
 import Flag from "../game/Flag";
@@ -24,7 +24,7 @@ export default class Game extends Phaser.Scene {
 
     update(time: number, delta: number): void {
         this.player.update(time, delta);
-        this.timer.update(time, delta);
+        this.timer.update();
         this.layers.forEach(x => x.update(time, delta));
     }
 
@@ -109,7 +109,7 @@ export default class Game extends Phaser.Scene {
         });
 
         this.puzzleState.emit('active-ids', this.puzzleState.getActiveIds());
-        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {
+        this.input.on('pointerdown', (_: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {
             objs.filter(x => x.name === 'tile-highlight').forEach(x => x.emit(EventKeys.HighlightClick));
         });
     }
