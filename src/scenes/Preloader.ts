@@ -31,7 +31,17 @@ export default class Preloader extends Phaser.Scene {
         this.load.audio(SoundKeys.Walking, ["assets/audio/squidwardWalk.mp3"]);
         this.load.audio(SoundKeys.Jump, ["assets/audio/jump.mp3"]);
         this.load.audio(SoundKeys.Win, ["assets/audio/win.mp3"]);
-    
+
+        this.load.audio(SoundKeys.TileClick1, 'assets/audio/tileclick/click-1.ogg');
+        this.load.audio(SoundKeys.TileClick2, 'assets/audio/tileclick/click-2.ogg');
+        this.load.audio(SoundKeys.TileClick3, 'assets/audio/tileclick/click-3.ogg');
+        this.load.audio(SoundKeys.TileClick4, 'assets/audio/tileclick/click-4.ogg');
+        this.load.audio(SoundKeys.TileClick5, 'assets/audio/tileclick/click-5.ogg');
+        this.load.audio(SoundKeys.TileClick6, 'assets/audio/tileclick/click-6.ogg');
+
+        this.load.audio(SoundKeys.TileMoveLower, 'assets/audio/tilemove/lower.ogg');
+        this.load.audio(SoundKeys.TileMoveStandard, 'assets/audio/tilemove/standard.ogg');
+        this.load.audio(SoundKeys.TileMoveHigher, 'assets/audio/tilemove/higher.ogg');
         // sprites
         this.load.image(TextureKeys.Flag, ["assets/sprites/flag.png"]);
     }
