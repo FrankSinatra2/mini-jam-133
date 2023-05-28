@@ -100,6 +100,8 @@ export default class Game extends Phaser.Scene {
 
         // Make the player collidable with the flag
         this.physics.add.overlap(this.player, this.flag, ()=>{
+            this.sound.stopAll();
+            this.layers = [];
             this.scene.start(SceneKeys.WinScreen);
         });
 
